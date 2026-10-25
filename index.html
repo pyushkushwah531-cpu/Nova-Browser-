@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#172345">
+<title>Nova Browser — Student Edition</title>
+<style>
+:root{--navy:#172345;--navy2:#202f58;--ink:#202844;--muted:#69728b;--paper:#f5f7fc;--card:#fff;--purple:#6557d8;--line:#e4e8f2;--green:#dff5e8;--gold:#fff0d6}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+header{background:linear-gradient(135deg,var(--navy),#343b75);color:white;padding:22px 18px 24px;border-radius:0 0 26px 26px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:10px}.brand{font-size:23px;font-weight:800;letter-spacing:.2px}.brand span{color:#c6c1ff}.pill{font-size:11px;background:#ffffff20;border:1px solid #ffffff30;border-radius:30px;padding:6px 10px}
+.tagline{color:#dce3ff;font-size:13px;margin-top:5px}
+.search{display:flex;gap:7px;background:#fff;padding:6px;border-radius:15px;margin-top:19px;box-shadow:0 7px 22px #0a143022}
+select,input,textarea,button{font:inherit}.search select{width:88px;border:0;background:#f0f1ff;border-radius:10px;padding:0 7px;color:#36316e;font-size:12px}
+.search input{min-width:0;flex:1;border:0;outline:0;padding:10px 4px;color:#202844;font-size:14px}.search button{border:0;border-radius:10px;background:var(--purple);color:white;padding:0 15px;font-weight:700}
+main{padding:16px 15px 95px;max-width:680px;margin:auto}.quote{background:linear-gradient(110deg,#fff,#f0edff);border:1px solid #e5e0ff;border-radius:18px;padding:16px;display:flex;gap:12px;align-items:flex-start}.quoteicon{font-size:25px}.eyebrow{font-size:11px;color:var(--purple);font-weight:800;letter-spacing:1px;text-transform:uppercase}.quote p{margin:6px 0 0;font-weight:700;line-height:1.45}.sectionhead{display:flex;justify-content:space-between;align-items:center;margin:22px 2px 11px}.sectionhead h2{font-size:17px;margin:0}.small{font-size:12px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.tile{background:var(--card);border:1px solid var(--line);border-radius:17px;padding:15px;min-height:108px;text-align:left;cursor:pointer;color:var(--ink);box-shadow:0 4px 14px #26376508}.tile:active{transform:scale(.985)}.tile .ico{font-size:23px;margin-bottom:9px}.tile b{display:block;font-size:14px}.tile small{display:block;color:var(--muted);font-size:11px;margin-top:4px;line-height:1.35}
+.goal{background:var(--navy2);color:white;border-radius:18px;padding:16px;margin-top:18px}.goalrow{display:flex;align-items:center;justify-content:space-between;gap:10px}.goal h3{font-size:16px;margin:0}.goal p{color:#d8def6;font-size:12px;margin:6px 0 12px}.goal button{background:#d9d5ff;color:#28235d;border:0;border-radius:10px;padding:9px 12px;font-weight:700;font-size:12px}
+.quicklinks{display:flex;gap:9px;overflow:auto;padding-bottom:3px}.quick{white-space:nowrap;background:white;border:1px solid var(--line);padding:10px 13px;border-radius:12px;font-size:12px;font-weight:650;color:#394367;text-decoration:none}
+.panel{display:none;background:white;border:1px solid var(--line);padding:16px;border-radius:17px;margin-top:16px}.panel.show{display:block}.panel h3{margin:0 0 10px}.panel textarea{width:100%;min-height:100px;border:1px solid var(--line);border-radius:12px;padding:12px;resize:vertical}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.btn{border:0;border-radius:10px;padding:10px 13px;font-weight:700;font-size:13px;background:var(--purple);color:white}.btn.secondary{background:#edf0fa;color:#343e60}.btn.danger{background:#fff0f0;color:#a33b45}
+#tabPanel .tabitem,#historyList .histitem{display:flex;justify-content:space-between;gap:10px;align-items:center;border-bottom:1px solid var(--line);padding:10px 0;font-size:13px}.tabitem:last-child,.histitem:last-child{border-bottom:0}
+nav{position:fixed;bottom:0;left:0;right:0;background:#ffffffed;backdrop-filter:blur(12px);border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:9px 4px calc(9px + env(safe-area-inset-bottom));z-index:5}nav button{border:0;background:transparent;color:#6a728b;font-size:11px;display:flex;flex-direction:column;align-items:center;gap:3px;min-width:58px}nav button strong{font-size:19px;font-weight:500}nav button.active{color:var(--purple);font-weight:800}
+footer{text-align:center;color:#8a91a5;font-size:10px;margin:24px 0}
+.modalback{display:none;position:fixed;inset:0;background:#10172c88;z-index:10;align-items:center;justify-content:center;padding:22px}.modalback.show{display:flex}.modal{background:white;border-radius:20px;padding:21px;max-width:360px;width:100%;box-shadow:0 20px 70px #0003}.modal h3{margin:0 0 8px}.modal p{font-size:14px;line-height:1.5;color:#5d6680}.modal .actions{justify-content:flex-end}
+body.dark{--paper:#10172b;--card:#1b2540;--ink:#edf0ff;--muted:#aeb7d2;--line:#303b5a;background:var(--paper)}body.dark .tile,body.dark .panel,body.dark .quick,body.dark nav,body.dark .modal{background:#1b2540;color:var(--ink)}body.dark .quote{background:#252344;border-color:#39345f}body.dark .search{background:#1b2540}body.dark .search input{background:#1b2540;color:white}body.dark .search select{background:#30345d;color:white}body.dark nav{border-color:var(--line)}body.dark .btn.secondary{background:#303b5a;color:white}
+@media(min-width:520px){main{padding-left:22px;padding-right:22px}.grid{grid-template-columns:repeat(4,minmax(0,1fr))}.tile{min-height:120px}}
+</style>
+</head>
+<body>
+<header>
+ <div class="top"><div><div class="brand">✦ Nova <span>Browser</span></div><div class="tagline">पढ़ाई भी • खोज भी • प्रगति भी</div></div><div class="pill">STUDENT EDITION</div></div>
+ <form class="search" id="searchForm">
+  <select id="engine" aria-label="Search engine"><option value="google">Google</option><option value="bing">Bing</option></select>
+  <input id="query" placeholder="कुछ खोजें या वेबसाइट लिखें…" autocomplete="off" aria-label="Search or website">
+  <button type="submit">खोजें</button>
+ </form>
+</header>
+<main>
+ <section class="quote"><div class="quoteicon">✦</div><div><div class="eyebrow">आज की प्रेरणा</div><p id="quoteText">छोटे-छोटे कदम ही बड़ी सफलता बनाते हैं। आज बस शुरुआत करो।</p></div></section>
+ <div class="sectionhead"><h2>आपका Study Zone</h2><span class="small">सीखते रहें ✨</span></div>
+ <div class="grid">
+  <button class="tile" data-url="https://pyushkushwah531-cpu.github.io/BoardPrep-12-/"><div class="ico">📚</div><b>BoardPrep 12</b><small>Class 12 MCQ और तैयारी</small></button>
+  <button class="tile" data-url="https://pyushkushwah531-cpu.github.io/brainx/"><div class="ico">🧠</div><b>BrainX</b><small>दिमागी खेल और सीखना</small></button>
+  <button class="tile" data-url="https://www.youtube.com/"><div class="ico">▶️</div><b>YouTube</b><small>वीडियो लेक्चर और अभ्यास</small></button>
+  <button class="tile" id="notesShortcut"><div class="ico">📝</div><b>मेरे नोट्स</b><small>याद रखने वाली बातें लिखें</small></button>
+ </div>
+ <section class="goal">
+  <div class="goalrow"><h3>🎯 आज का छोटा लक्ष्य</h3><span id="goalStatus" class="pill">0/1 पूरा</span></div>
+  <p>एक विषय चुनें और 25 मिनट पूरे ध्यान से पढ़ें।</p>
+  <button id="goalButton">मैंने लक्ष्य पूरा किया ✓</button>
+ </section>
+ <div class="sectionhead"><h2>फटाफट खोलें</h2><span class="small">Quick links</span></div>
+ <div class="quicklinks">
+  <a class="quick" href="https://www.ncert.nic.in/" target="_blank" rel="noopener">NCERT</a>
+  <a class="quick" href="https://www.mpbse.nic.in/" target="_blank" rel="noopener">MP Board</a>
+  <a class="quick" href="https://www.wikipedia.org/" target="_blank" rel="noopener">Wikipedia</a>
+ </div>
+ <section class="panel" id="notesPanel">
+  <h3>📝 मेरे Study Notes</h3><p class="small">आपके नोट्स इसी डिवाइस के ब्राउज़र में सेव होंगे।</p>
+  <textarea id="notes" placeholder="आज क्या पढ़ा? जरूरी सूत्र या याद रखने वाली बातें लिखें…"></textarea>
+  <div class="actions"><button class="btn" id="saveNotes">नोट्स सेव करें</button><button class="btn secondary" id="closeNotes">बंद करें</button></div>
+ </section>
+ <section class="panel" id="tabsPanel">
+  <h3>▣ हाल के टैब</h3><p class="small">यह शुरुआती वेब प्रोटोटाइप है; वेबसाइटें नए ब्राउज़र टैब में खुलती हैं।</p><div id="tabList"></div>
+ </section>
+ <section class="panel" id="historyPanel">
+  <h3>◷ हाल की खोजें</h3><div id="historyList"></div>
+  <div class="actions"><button class="btn danger" id="clearHistory">History साफ करें</button></div>
+ </section>
+ <section class="panel" id="settingsPanel">
+  <h3>⚙️ Browser Settings</h3>
+  <div class="actions"><button class="btn secondary" id="toggleDark">🌙 Dark Mode बदलें</button><button class="btn secondary" id="showMotivation">✦ मोटिवेशन दिखाएँ</button><button class="btn danger" id="clearAll">नोट्स और History साफ करें</button></div>
+  <p class="small">Search engine चुनने के लिए ऊपर Google/Bing बदलें।</p>
+ </section>
+ <footer>Nova Browser Student Edition • शुरुआती वेब प्रोटोटाइप</footer>
+</main>
+<nav>
+ <button class="active" data-nav="home"><strong>⌂</strong>Home</button>
+ <button data-nav="tabs"><strong>▣</strong>Tabs</button>
+ <button data-nav="history"><strong>◷</strong>History</button>
+ <button data-nav="notes"><strong>✎</strong>Notes</button>
+ <button data-nav="settings"><strong>⚙</strong>Settings</button>
+</nav>
+<div class="modalback" id="motivationModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+ <div class="modal"><div class="eyebrow">NOVA STUDY MOMENT</div><h3 id="modalTitle">आप कर सकते हैं!</h3><p id="modalQuote">हर दिन थोड़ा बेहतर बनना ही असली जीत है।</p><div class="actions"><button class="btn secondary" id="dontShow">अभी नहीं</button><button class="btn" id="closeModal">चलो पढ़ते हैं</button></div></div>
+</div>
+<script>
+const $ = id => document.getElementById(id);
+const quotes = [
+ "छोटे-छोटे कदम ही बड़ी सफलता बनाते हैं। आज बस शुरुआत करो।",
+ "परफेक्ट समय का इंतज़ार मत करो—आज के 20 मिनट भी मायने रखते हैं।",
+ "जो आज सीखोगे, वही कल तुम्हारा आत्मविश्वास बनेगा।",
+ "धीरे चलना ठीक है, रुक जाना जरूरी नहीं।",
+ "तुम्हारा मुकाबला दूसरों से नहीं, अपने कल से है।"
+];
+$("quoteText").textContent = quotes[new Date().getDate() % quotes.length];
+let historyItems = JSON.parse(localStorage.getItem("novaHistory") || "[]");
+let tabItems = JSON.parse(localStorage.getItem("novaTabs") || "[]");
+$("notes").value = localStorage.getItem("novaNotes") || "";
+let goalDone = localStorage.getItem("novaGoalDate") === new Date().toDateString();
+function saveHistory(){localStorage.setItem("novaHistory",JSON.stringify(historyItems));renderHistory();}
+function renderHistory(){
+ const list=$("historyList");
+ if(!historyItems.length){list.innerHTML='<p class="small">अभी कोई खोज नहीं।</p>';return;}
+ list.innerHTML="";
+ historyItems.slice().reverse().forEach(item=>{
+  const row=document.createElement("div");row.className="histitem";
+  const label=document.createElement("span");label.textContent=item.label;
+  const btn=document.createElement("button");btn.className="btn secondary";btn.textContent="फिर खोलें";btn.onclick=()=>openUrl(item.url,false);
+  row.append(label,btn);list.appendChild(row);
+ });
+}
+function renderTabs(){
+ const list=$("tabList");
+ if(!tabItems.length){list.innerHTML='<p class="small">अभी कोई वेबसाइट नहीं खोली गई।</p>';return;}
+ list.innerHTML="";
+ tabItems.slice().reverse().forEach(item=>{
+  const row=document.createElement("div");row.className="tabitem";
+  const label=document.createElement("span");label.textContent=item.label;
+  const btn=document.createElement("button");btn.className="btn secondary";btn.textContent="खोलें";btn.onclick=()=>window.open(item.url,"_blank","noopener");
+  row.append(label,btn);list.appendChild(row);
+ });
+}
+function openUrl(url,record=true,label=url){
+ try{const parsed=new URL(url);if(!["http:","https:"].includes(parsed.protocol))throw new Error("bad");}
+ catch(e){alert("सुरक्षित HTTP/HTTPS वेबसाइट का पता दें।");return;}
+ if(record){
+  historyItems=historyItems.filter(x=>x.url!==url);
+  historyItems.push({url,label:label.slice(0,100),at:Date.now()});
+  historyItems=historyItems.slice(-50);saveHistory();
+  tabItems=tabItems.filter(x=>x.url!==url);tabItems.push({url,label:label.slice(0,100),at:Date.now()});
+  tabItems=tabItems.slice(-12);localStorage.setItem("novaTabs",JSON.stringify(tabItems));renderTabs();
+ }
+ window.open(url,"_blank","noopener");
+}
+$("searchForm").addEventListener("submit",e=>{
+ e.preventDefault();const q=$("query").value.trim();if(!q)return;
+ let url,label=q;
+ if(/^https?:\/\//i.test(q)){url=q;}
+ else if(!/\s/.test(q)&&q.includes(".")&&!q.startsWith(".")){url="https://"+q;}
+ else{url=($("engine").value==="bing"?"https://www.bing.com/search?q=":"https://www.google.com/search?q=")+encodeURIComponent(q);}
+ openUrl(url,true,label);
+});
+document.querySelectorAll("[data-url]").forEach(btn=>btn.addEventListener("click",()=>openUrl(btn.dataset.url,true,btn.querySelector("b").textContent)));
+function showPanel(name){
+ ["notes","tabs","history","settings"].forEach(n=>$(n+"Panel").classList.toggle("show",n===name));
+ document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("active",b.dataset.nav===name || (name==="home"&&b.dataset.nav==="home")));
+ if(name==="tabs")renderTabs();if(name==="history")renderHistory();
+ if(name==="notes")$("notesPanel").scrollIntoView({behavior:"smooth",block:"center"});
+}
+document.querySelectorAll("[data-nav]").forEach(b=>b.addEventListener("click",()=>{
+ const name=b.dataset.nav;
+ if(name==="home"){showPanel("home");window.scrollTo({top:0,behavior:"smooth"});}
+ else showPanel(name);
+}));
+$("notesShortcut").onclick=()=>showPanel("notes");
+$("saveNotes").onclick=()=>{localStorage.setItem("novaNotes",$("notes").value);alert("नोट्स इस डिवाइस पर सेव हो गए।");};
+$("closeNotes").onclick=()=>showPanel("home");
+$("clearHistory").onclick=()=>{if(confirm("क्या हाल की खोजों की History साफ करें?")){historyItems=[];tabItems=[];localStorage.removeItem("novaHistory");localStorage.removeItem("novaTabs");renderHistory();renderTabs();}};
+$("clearAll").onclick=()=>{if(confirm("क्या Notes और History साफ करना चाहते हैं?")){historyItems=[];tabItems=[];localStorage.removeItem("novaHistory");localStorage.removeItem("novaTabs");localStorage.removeItem("novaNotes");$("notes").value="";renderHistory();renderTabs();alert("इस प्रोटोटाइप का सेव किया डेटा साफ हो गया।");}};
+$("toggleDark").onclick=()=>document.body.classList.toggle("dark");
+function showMotivation(){$("modalQuote").textContent=quotes[Math.floor(Math.random()*quotes.length)];$("motivationModal").classList.add("show");}
+$("showMotivation").onclick=showMotivation;$("closeModal").onclick=()=>$("motivationModal").classList.remove("show");$("dontShow").onclick=()=>$("motivationModal").classList.remove("show");
+$("goalButton").onclick=()=>{goalDone=!goalDone;localStorage.setItem("novaGoalDate",goalDone?new Date().toDateString():"");updateGoal();};
+function updateGoal(){$("goalStatus").textContent=goalDone?"1/1 पूरा":"0/1 पूरा";$("goalButton").textContent=goalDone?"आज का लक्ष्य पूरा ✓":"मैंने लक्ष्य पूरा किया ✓";$("goalButton").style.opacity=goalDone?".75":"1";}
+updateGoal();renderHistory();renderTabs();
+if(!sessionStorage.getItem("novaWelcomed")){sessionStorage.setItem("novaWelcomed","yes");setTimeout(showMotivation,900);}
+</script>
+</body>
+</html>
